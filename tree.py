@@ -1,7 +1,5 @@
 #!/usr/bin/python -tt
 
-from threading import Lock
-
 class Node():
     def __init__(self, data):
         self.data = data
