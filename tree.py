@@ -2,61 +2,60 @@
 
 from threading import Lock
 
-class Tree():
-    #    makepath(path)   # mkdir of filesystem implementation
-    #    move(path)       # mv filesystem implementation
-    #    list(path)       # ls filesystem implementation
-    #    get(path)        # save filesystem implementation
-    #    set(path)        # open filesystem implementation
-    def __init__(self, separator='/'):
-        # Initiate root node
-        self.root = { }
-        self.lock = Lock()
-        self.separator = separator
-        return None
+class Node():
+    def __init__(self, data):
+        self.data = data
+        self.children = []
+        self.parent = None
+        self.root = self
 
-    def makepath(path):
-        # If path does not exist, initialize
-        try:
-            self.root[path]
-        except KeyError:
-            self.lock.acquire()
-            self.root[path] = []
-            self.lock.release()
-        return True
+    def add_child(self, child):
+        # Add a child node
+        child.parent = self
+        child.root = self.root
+        self.children.append(child)
 
-    def mv(src_path, tgt_path):
-        # Move path or node
-        # TODO
-        return
+    def del_child(self, child):
+        # Delete a child node
+        self.children.remove(child)
 
-    def ls(path):
-        # Return list of files in path node
-        return [ _file.name for _file in self.root[path] ]
+    def is_leaf(self):
+        # Returns true if there are no children
+        if len(self.children) == 0:
+            return True
+        else:
+            return False
 
-    def get(path):
-        # Return file found at path
-        dir_path = self.separator.join(path.split(self.separator)[:-1])
-        file_name = path.split(self.separator[-1])
-        for _file in self.root[dir_path]:
-            if _file.name == file_name:
-                return _file
-        raise ValueError('Requested node does not exist')
+    def is_root(self):
+        # Returns true if this is the root node
+        if self.root == self:
+            return True
+        else:
+            return False
 
-    def set(path, _new_file):
-        # Insert file at path
-        dir_path = self.separator.join(path.split(self.separator)[:-1])
-        file_name = path.split(self.separator[-1])
-        try:
-            _dir = self.root[dir_path]
-        except KeyError:
-            raise ValueError('Directory does not exist')
-        for _file in _dir:
-            if _file.name == _new_file.name:
-                raise ValueError('Node with same name already exists')
-        self.lock.acquire()
-        _dir.append(_new_file)
-        self.root[dir_path] = _dir
-        self.lock.release()
-        return True
+    def get_root(self):
+        # Returns the top level node
+        return self.root
 
+    def up(self):
+        # Returns parent node
+        if self.parent == None:
+            return self
+        else:
+            return self.parent
+
+    def get_children(self):
+        # Returns a list of children
+        return self.children
+
+    def get_sisters(self):
+        # Returns a list of nodes on the same level
+        if self.is_root():
+            return []
+        else:
+            return [ child for child in self.parent if child != self ]
+
+    def __iter__(self):
+        # For iterating over the node
+        for child in self.children:
+            yield child
