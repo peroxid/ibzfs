@@ -2,7 +2,7 @@ ibzfs
 =====
 File class
 ----------
-- Instantiate to get a file
+Instantiate to get a file
 - open()               # To enable reading the file
 - read(offset, amount) # Read amount bytes starting with offset
 - write(offset, data)  # Write data starting with offset
@@ -32,7 +32,7 @@ Methods:
 
 Tree class
 ----------
-- Not really a tree, but a key-value store
+Not really a tree, but a key-value store
         dict { 
             path:  [list of File()s] 
             path2: [list of File()s]
@@ -44,8 +44,6 @@ Methods:
 - move(path)       # mv filesystem implementation
 - list(path)       # ls filesystem implementation
 - set(path)        # save filesystem implementation
--get(path)        # open filesystem implementation
-
-
+- get(path)        # open filesystem implementation
 
 
