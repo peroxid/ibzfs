@@ -32,7 +32,7 @@ class Filesystem():
         self.add_to_index(path, _file)
 
     def read(self, path):
-        pass
+        return self.get_from_index(path)
 
     def move(self, src, tgt):
         pass
