@@ -64,7 +64,7 @@ class Filesystem():
     def ls(self, path):
         pass
 
-    def print(self, tree):
+    def __repr__(self):
         pass
 
     def copy(self, src, tgt):
