@@ -13,7 +13,7 @@ def main():
     print 'Creating directory /usr/local/bin'
     fs.mkdir('/usr/local/bin')
     print 'Creating file'
-    _file = File()
+    _file = _File()
     print 'Writing to file'
     _file.write(0, 'blah blah blah')
     print 'Saving file to /usr/local/bin/file'
