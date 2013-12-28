@@ -1,6 +1,6 @@
 #!/usr/bin/python -tt
 
-class Index():
+class Filesystem():
     def __init__(self):
         self.index = {}
 
@@ -20,4 +20,26 @@ class Index():
         except KeyError:
             return False
 
+    def write(self, _file):
+        pass
 
+    def read(self, path):
+        pass
+
+    def move(self, src, tgt):
+        pass
+
+    def delete(self, _file):
+        pass
+
+    def ls(self, path):
+        pass
+
+    def print(self, tree):
+        pass
+
+    def copy(self, src, tgt):
+        pass
+
+    def mkdir(self, path):
+        pass
