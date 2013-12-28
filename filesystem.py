@@ -1,6 +1,7 @@
 #!/usr/bin/python -tt
 
 from tree import Node
+from file import File
 
 class Filesystem():
     def __init__(self):
@@ -37,8 +38,28 @@ class Filesystem():
     def move(self, src, tgt):
         pass
 
-    def delete(self, _file):
-        pass
+    def delete(self, path):
+        dirpath = '/'.join(path.split('/')[:-1])
+        parent = self.get_from_index(dirpath)
+        child = self.get_from_index(path)
+        self.del_from_index(path)
+        parent.del_child(child)
+
+    def delete_recursive(self, path):
+        dirpath = '/'.join(path.split('/')[:-1])
+        parent = self.get_from_index(dirpath)
+        for child in parent:
+            if isinstance(child, File):
+                self.del_from_index(child.get_path())
+                parent.del_child(child)
+            if isinstance(child, Node):
+                if child.is_leaf():
+                    self.del_from_index(child.get_path())
+                    parent.del_child(child)
+                else:
+                    self.delete_recursive(child.get_path())
+            else:
+                raise RuntimeError("attempted to delete unknown object")
 
     def ls(self, path):
         pass
