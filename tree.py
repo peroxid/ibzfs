@@ -3,6 +3,7 @@
 class Node():
     def __init__(self, name):
         self.name = name
+        self.path = [name]
         self.children = []
         self.parent = None
         self.root = self
@@ -11,6 +12,8 @@ class Node():
         # Add a child node
         child.parent = self
         child.root = self.root
+        child.path = self.path
+        child.path.append(child.name)
         self.children.append(child)
 
     def del_child(self, child):
@@ -55,6 +58,9 @@ class Node():
 
     def get_name(self):
         return self.name
+
+    def get_path(self):
+        return self.path
 
     def __iter__(self):
         # For iterating over the node

@@ -5,7 +5,7 @@ from tree import Node
 class Filesystem():
     def __init__(self):
         self.index = {}
-        self.tree = Node("root")
+        self.tree = Node('')
 
     def add_to_index(self, key, value):
         self.index[key] = value
