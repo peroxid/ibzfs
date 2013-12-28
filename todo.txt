@@ -15,3 +15,6 @@ Patrick:
 - Locking
 - Optional frontend
 
+Issues:
+- When descending in delete_recursive, don't stop on first leaf, but go back up
+  again and continue from there
