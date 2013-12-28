@@ -1,0 +1,17 @@
+Tobias:
+- Save to disk / load from disk
+- Filesystem:
+    read()
+    write()
+    move()
+    delete()
+    ls()
+    mkdir()
+    copy()
+
+Patrick:
+- Doku
+- User simulation
+- Locking
+- Optional frontend
+
