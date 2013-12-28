@@ -1,8 +1,8 @@
 #!/usr/bin/python -tt
 
 class Node():
-    def __init__(self, data):
-        self.data = data
+    def __init__(self, name):
+        self.name = name
         self.children = []
         self.parent = None
         self.root = self
@@ -52,6 +52,9 @@ class Node():
             return []
         else:
             return [ child for child in self.parent if child != self ]
+
+    def get_name(self):
+        return self.name
 
     def __iter__(self):
         # For iterating over the node
