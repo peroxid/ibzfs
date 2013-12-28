@@ -29,6 +29,8 @@ class Filesystem():
         # write _file to path in filesystem and update index
         _file.name = path.split('/')[-1]
         dirpath = '/'.join(path.split('/')[:-1])
+        if dirpath == '':
+            dirpath = '/'
         dirnode = self.get_from_index(dirpath)
         dirnode.add_child(_file)
         self.add_to_index(path, _file)
@@ -40,24 +42,34 @@ class Filesystem():
         pass
 
     def delete(self, path):
+        print 'delete function'
         dirpath = '/'.join(path.split('/')[:-1])
+        if dirpath == '':
+            dirpath = '/'
+        print 'dirpath is', dirpath
         parent = self.get_from_index(dirpath)
         child = self.get_from_index(path)
         self.del_from_index(path)
         parent.del_child(child)
 
     def delete_recursive(self, path):
-        dirpath = '/'.join(path.split('/')[:-1])
-        parent = self.get_from_index(dirpath)
-        for child in parent:
+        print 'delete_recursive called'
+        print 'path is', path
+        print 'index is', self.index
+        me = self.get_from_index(path)
+        for child in me:
             if isinstance(child, _File):
+                print 'child is file'
                 self.del_from_index(child.get_path())
-                parent.del_child(child)
+                me.del_child(child)
             if isinstance(child, Node):
+                print 'child is node'
                 if child.is_leaf():
+                    print 'node is leaf'
                     self.del_from_index(child.get_path())
-                    parent.del_child(child)
+                    me.del_child(child)
                 else:
+                    print 'node is not leaf, recursing'
                     self.delete_recursive(child.get_path())
             else:
                 raise RuntimeError("attempted to delete unknown object")
@@ -79,11 +91,11 @@ class Filesystem():
                 continue
             else:
                 # Prepend a / to the directory name to work around the '/'.join problem
-                cur_path.append(''.join(['/', _dir]))
+                cur_path.append('/' + _dir)
 
             # If the current directory node does not exist, create it
             if not self.is_in_index(''.join(cur_path)):
-                _dir = ''.join(['/', _dir])
+                _dir = '/' + _dir
                 new_node = Node(_dir)
                 # If we are unable to find the parent, that means we're
                 # a child of / itself
