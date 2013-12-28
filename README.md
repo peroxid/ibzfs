@@ -28,7 +28,6 @@ Methods:
 - mv(path)           # moves a directory path or path to file
 
 
-    
 
 Tree class
 ----------
