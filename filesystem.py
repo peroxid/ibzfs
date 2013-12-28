@@ -71,4 +71,15 @@ class Filesystem():
         pass
 
     def mkdir(self, path):
-        pass
+        cur_path = []
+        for _dir in path.split('/'):
+            cur_path.append(_dir)
+            if not self.is_in_index('/'.join(cur_path)):
+                new_node = Node(_dir)
+                parent = self.get_from_index('/'.join(cur_path)[:-1])
+                parent.add_child(new_node)
+            else:
+                obj = self.get_from_index('/'.join(cur_path))
+                if not isinstance(obj, Node):
+                    raise RuntimeError("attempted to overwrite existing file")
+
