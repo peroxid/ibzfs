@@ -6,7 +6,8 @@ from myfile import _File
 class Filesystem():
     def __init__(self):
         self.index = {}
-        self.tree = Node('')
+        self.tree = Node('/')
+        self.add_to_index('/', self.tree)
 
     def add_to_index(self, key, value):
         self.index[key] = value
@@ -73,13 +74,29 @@ class Filesystem():
     def mkdir(self, path):
         cur_path = []
         for _dir in path.split('/'):
-            cur_path.append(_dir)
-            if not self.is_in_index('/'.join(cur_path)):
-                new_node = Node(_dir)
-                parent = self.get_from_index('/'.join(cur_path)[:-1])
-                parent.add_child(new_node)
+            # If the directory name is empty, we've go nothing to do
+            if _dir == '':
+                continue
             else:
-                obj = self.get_from_index('/'.join(cur_path))
+                # Prepend a / to the directory name to work around the '/'.join problem
+                cur_path.append(''.join(['/', _dir]))
+
+            # If the current directory node does not exist, create it
+            if not self.is_in_index(''.join(cur_path)):
+                _dir = ''.join(['/', _dir])
+                new_node = Node(_dir)
+                # If we are unable to find the parent, that means we're
+                # a child of / itself
+                if not self.is_in_index(''.join(cur_path[:-1])):
+                    parent = self.get_from_index('/')
+                else:
+                    parent = self.get_from_index(''.join(cur_path[:-1]))
+                parent.add_child(new_node)
+                self.add_to_index(''.join(cur_path), new_node)
+            else:
+                # If the directory is found, make sure it is a directory and not
+                # a file or something crazy
+                obj = self.get_from_index(''.join(cur_path))
                 if not isinstance(obj, Node):
                     raise RuntimeError("attempted to overwrite existing file")
 
