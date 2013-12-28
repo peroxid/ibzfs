@@ -1,8 +1,11 @@
 #!/usr/bin/python -tt
 
+from tree import Node
+
 class Filesystem():
     def __init__(self):
         self.index = {}
+        self.tree = Node("root")
 
     def add_to_index(self, key, value):
         self.index[key] = value
@@ -20,8 +23,13 @@ class Filesystem():
         except KeyError:
             return False
 
-    def write(self, _file):
-        pass
+    def write(self, path, _file):
+        # write _file to path in filesystem and update index
+        _file.name = path.split('/')[-1]
+        dirpath = '/'.join(path.split('/')[:-1])
+        dirnode = self.get_from_index(dirpath)
+        dirnode.add_child(_file)
+        self.add_to_index(path, _file)
 
     def read(self, path):
         pass
