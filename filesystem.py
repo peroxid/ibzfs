@@ -24,7 +24,7 @@ class Filesystem():
         except KeyError:
             return False
 
-    def write(self, path, _file):
+    def write(self, _file, path):
         # write _file to path in filesystem and update index
         _file.name = path.split('/')[-1]
         dirpath = '/'.join(path.split('/')[:-1])
