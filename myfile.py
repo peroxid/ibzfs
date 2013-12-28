@@ -1,7 +1,7 @@
 #!/usr/bin/python -tt
 
 
-class File():
+class _File():
     def __init__(self):
         self.data = ''
         return

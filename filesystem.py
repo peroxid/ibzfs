@@ -1,7 +1,7 @@
 #!/usr/bin/python -tt
 
 from tree import Node
-from file import File
+from myfile import _File
 
 class Filesystem():
     def __init__(self):
@@ -49,7 +49,7 @@ class Filesystem():
         dirpath = '/'.join(path.split('/')[:-1])
         parent = self.get_from_index(dirpath)
         for child in parent:
-            if isinstance(child, File):
+            if isinstance(child, _File):
                 self.del_from_index(child.get_path())
                 parent.del_child(child)
             if isinstance(child, Node):
